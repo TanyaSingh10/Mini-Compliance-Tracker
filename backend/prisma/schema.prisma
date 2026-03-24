@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id          Int              @id @default(autoincrement())
+  companyName String
+  country     String
+  entityType  String
+  tasks       ComplianceTask[]
+}
+
+model ComplianceTask {
+  id          Int      @id @default(autoincrement())
+  clientId    Int
+  title       String
+  description String
+  category    String
+  dueDate     DateTime
+  status      String
+  priority    String
+  client      Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
